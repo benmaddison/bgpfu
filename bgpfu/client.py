@@ -9,11 +9,10 @@ import socket
 
 class IRRClient(object):
 
-    def __init__(self):
+    def __init__(self, host='whois.radb.net', port=43):
         self.keepalive = True
-        self.host = 'whois.radb.net'
-        self.host = 'rr.ntt.net'
-        self.port = 43
+        self.host = host
+        self.port = port
 
         self.re_res = re.compile('(?P<state>[ACDEF])(?P<len>\d*)(?P<msg>[\w\s]*)$')
 
@@ -145,7 +144,10 @@ class IRRClient(object):
     def prefixlist(self, as_set, proto=4):
         """ get prefix list for specified as-set(s) """
 
-        all_sets = self.get_set(as_set)
+        try:
+            all_sets = self.get_set(as_set)
+        except AttributeError:
+            all_sets = (as_set,)
 
         prefixes = []
         for each in all_sets:
