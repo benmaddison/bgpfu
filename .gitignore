@@ -9,3 +9,5 @@ dist/
 site/
 
 .idea
+bgpfu.py
+build
